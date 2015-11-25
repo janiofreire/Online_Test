@@ -1,0 +1,152 @@
+drop database IF EXISTS webquestion;
+create database webquestion;
+use webquestion;
+CREATE TABLE user (
+   id int(11) NOT NULL AUTO_INCREMENT,
+   name varchar(45),
+   password varchar(45),
+   PRIMARY KEY (id)
+);
+create table options(
+	id int(11) not null AUTO_INCREMENT,
+	description varchar(100),
+	PRIMARY KEY (id)
+);
+create table question(
+	id int(11) not null AUTO_INCREMENT,
+	description varchar(100),
+  	PRIMARY KEY (id)
+);
+create table question_options(
+	id int(11) not null AUTO_INCREMENT,
+	question_id int(11) not null,
+	options_id int(11) not null,
+	is_correct boolean not null,
+	PRIMARY KEY (id),
+	FOREIGN KEY (question_id) REFERENCES question(id),
+	FOREIGN KEY (options_id) REFERENCES options(id)
+);
+create table test(
+	id int(11) not null AUTO_INCREMENT,
+	time int(11) not null,
+	description varchar(100),
+	PRIMARY KEY (id)
+);
+create table test_question_options(
+	id int(11) not null AUTO_INCREMENT,
+	test_id int(11) not null,
+	question_options_id int(11),
+	PRIMARY KEY (id),
+	FOREIGN KEY (test_id) REFERENCES test(id),
+	FOREIGN KEY (question_options_id) REFERENCES question_options(id)
+);
+create table user_test(
+	id int(11) not null AUTO_INCREMENT,
+	user_id int(11) not null,
+	test_id int(11) not null,
+	PRIMARY KEY (id),
+	FOREIGN KEY (test_id) REFERENCES test(id),
+	FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+create table user_answer(
+	id int(11) not null AUTO_INCREMENT,
+	user_test_id int(11) not null,
+	test_question_options_id int(11) not null,
+	is_correct boolean not null,
+	PRIMARY KEY (id),
+	FOREIGN KEY (test_question_options_id) REFERENCES test_question_options(id),
+	FOREIGN KEY (user_test_id) REFERENCES user_test(id)
+);
+INSERT INTO options (description) VALUES ("Nullam nisl. Maecenas malesuada fringilla"),("Suspendisse eleifend. Cras sed leo."),("dolor sit amet, consectetuer adipiscing"),("orci. Ut semper pretium neque."),("arcu. Aliquam ultrices iaculis odio."),("pede sagittis augue, eu tempor"),("ornare tortor at risus. Nunc"),("facilisis facilisis, magna tellus faucibus"),("Sed dictum. Proin eget odio."),("Nullam vitae diam. Proin dolor.");
+INSERT INTO options (description) VALUES ("consequat enim diam vel arcu."),("tellus. Phasellus elit pede, malesuada"),("posuere, enim nisl elementum purus,"),("vitae nibh. Donec est mauris,"),("nec tempus scelerisque, lorem ipsum"),("tellus. Phasellus elit pede, malesuada"),("ac mi eleifend egestas. Sed"),("nisi. Mauris nulla. Integer urna."),("ligula. Nullam enim. Sed nulla"),("Donec vitae erat vel pede");
+INSERT INTO options (description) VALUES ("malesuada id, erat. Etiam vestibulum"),("dignissim. Maecenas ornare egestas ligula."),("nulla vulputate dui, nec tempus"),("quam a felis ullamcorper viverra."),("urna, nec luctus felis purus"),("Mauris vel turpis. Aliquam adipiscing"),("interdum feugiat. Sed nec metus"),("nisi sem semper erat, in"),("In lorem. Donec elementum, lorem"),("urna. Nunc quis arcu vel");
+INSERT INTO options (description) VALUES ("montes, nascetur ridiculus mus. Aenean"),("massa. Suspendisse eleifend. Cras sed"),("Pellentesque habitant morbi tristique senectus"),("ante ipsum primis in faucibus"),("Donec egestas. Aliquam nec enim."),("adipiscing lobortis risus. In mi"),("non, cursus non, egestas a,"),("pede. Nunc sed orci lobortis"),("hendrerit a, arcu. Sed et"),("Praesent eu nulla at sem");
+INSERT INTO options (description) VALUES ("feugiat. Sed nec metus facilisis"),("Duis at lacus. Quisque purus"),("turpis non enim. Mauris quis"),("Ut sagittis lobortis mauris. Suspendisse"),("a, arcu. Sed et libero."),("mollis nec, cursus a, enim."),("Curabitur ut odio vel est"),("ligula. Aenean gravida nunc sed"),("faucibus orci luctus et ultrices"),("risus. Quisque libero lacus, varius");
+INSERT INTO options (description) VALUES ("Proin vel arcu eu odio"),("at, iaculis quis, pede. Praesent"),("elit sed consequat auctor, nunc"),("pede ac urna. Ut tincidunt"),("lorem ac risus. Morbi metus."),("posuere, enim nisl elementum purus,"),("nunc sed libero. Proin sed"),("imperdiet dictum magna. Ut tincidunt"),("ac, feugiat non, lobortis quis,"),("a, enim. Suspendisse aliquet, sem");
+INSERT INTO options (description) VALUES ("felis orci, adipiscing non, luctus"),("sit amet ornare lectus justo"),("convallis erat, eget tincidunt dui"),("sem, consequat nec, mollis vitae,"),("porttitor eros nec tellus. Nunc"),("semper egestas, urna justo faucibus"),("neque non quam. Pellentesque habitant"),("adipiscing lacus. Ut nec urna"),("quam a felis ullamcorper viverra."),("a, magna. Lorem ipsum dolor");
+INSERT INTO options (description) VALUES ("risus. Donec egestas. Duis ac"),("semper rutrum. Fusce dolor quam,"),("Aliquam erat volutpat. Nulla dignissim."),("molestie tortor nibh sit amet"),("ut eros non enim commodo"),("sagittis. Nullam vitae diam. Proin"),("enim. Etiam gravida molestie arcu."),("enim non nisi. Aenean eget"),("iaculis quis, pede. Praesent eu"),("eget, ipsum. Donec sollicitudin adipiscing");
+INSERT INTO options (description) VALUES ("ut aliquam iaculis, lacus pede"),("sit amet orci. Ut sagittis"),("parturient montes, nascetur ridiculus mus."),("congue. In scelerisque scelerisque dui."),("a, arcu. Sed et libero."),("dui lectus rutrum urna, nec"),("id magna et ipsum cursus"),("at augue id ante dictum"),("sem. Pellentesque ut ipsum ac"),("sit amet luctus vulputate, nisi");
+INSERT INTO options (description) VALUES ("gravida. Praesent eu nulla at"),("faucibus lectus, a sollicitudin orci"),("vel, vulputate eu, odio. Phasellus"),("elementum, dui quis accumsan convallis,"),("per conubia nostra, per inceptos"),("arcu. Nunc mauris. Morbi non"),("a purus. Duis elementum, dui"),("a sollicitudin orci sem eget"),("ullamcorper viverra. Maecenas iaculis aliquet"),("ornare. In faucibus. Morbi vehicula.");
+INSERT INTO question(description) VALUES ("felis eget varius ultrices, mauris ipsum porta elit, a feugiat"),("lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate"),("at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et"),("sit amet, faucibus ut, nulla. Cras eu tellus eu augue"),("ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec,"),("tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet,"),("vitae risus. Duis a mi fringilla mi lacinia mattis. Integer"),("non justo. Proin non massa non ante bibendum ullamcorper. Duis"),("leo elementum sem, vitae aliquam eros turpis non enim. Mauris"),("non nisi. Aenean eget metus. In nec orci. Donec nibh.");
+INSERT INTO question(description) VALUES ("amet nulla. Donec non justo. Proin non massa non ante"),("Fusce mollis. Duis sit amet diam eu dolor egestas rhoncus."),("Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor,"),("suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in"),("blandit enim consequat purus. Maecenas libero est, congue a, aliquet"),("auctor non, feugiat nec, diam. Duis mi enim, condimentum eget,"),("Sed auctor odio a purus. Duis elementum, dui quis accumsan"),("sem magna nec quam. Curabitur vel lectus. Cum sociis natoque"),("eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit"),("pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac,");
+INSERT INTO question(description) VALUES ("sed turpis nec mauris blandit mattis. Cras eget nisi dictum"),("erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus molestie dapibus"),("sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis"),("In ornare sagittis felis. Donec tempor, est ac mattis semper,"),("est, vitae sodales nisi magna sed dui. Fusce aliquam, enim"),("vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi"),("quis accumsan convallis, ante lectus convallis est, vitae sodales nisi"),("ligula tortor, dictum eu, placerat eget, venenatis a, magna. Lorem"),("arcu. Curabitur ut odio vel est tempor bibendum. Donec felis"),("metus facilisis lorem tristique aliquet. Phasellus fermentum convallis ligula. Donec");
+INSERT INTO question(description) VALUES ("amet, consectetuer adipiscing elit. Aliquam auctor, velit eget laoreet posuere,"),("et, eros. Proin ultrices. Duis volutpat nunc sit amet metus."),("In at pede. Cras vulputate velit eu sem. Pellentesque ut"),("ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus"),("quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam"),("vitae diam. Proin dolor. Nulla semper tellus id nunc interdum"),("Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit,"),("nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque"),("Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum"),("Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate,");
+INSERT INTO question(description) VALUES ("tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet,"),("diam. Pellentesque habitant morbi tristique senectus et netus et malesuada"),("pede. Suspendisse dui. Fusce diam nunc, ullamcorper eu, euismod ac,"),("Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean"),("neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce"),("in, cursus et, eros. Proin ultrices. Duis volutpat nunc sit"),("in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet, consectetuer"),("In at pede. Cras vulputate velit eu sem. Pellentesque ut"),("ac ipsum. Phasellus vitae mauris sit amet lorem semper auctor."),("eu tempor erat neque non quam. Pellentesque habitant morbi tristique");
+INSERT INTO question(description) VALUES ("enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula"),("nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat,"),("id, mollis nec, cursus a, enim. Suspendisse aliquet, sem ut"),("vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi"),("vulputate, lacus. Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non"),("elit elit fermentum risus, at fringilla purus mauris a nunc."),("semper, dui lectus rutrum urna, nec luctus felis purus ac"),("pharetra sed, hendrerit a, arcu. Sed et libero. Proin mi."),("sed sem egestas blandit. Nam nulla magna, malesuada vel, convallis"),("Praesent eu dui. Cum sociis natoque penatibus et magnis dis");
+INSERT INTO question(description) VALUES ("Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo."),("non quam. Pellentesque habitant morbi tristique senectus et netus et"),("sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. Sed"),("Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec,"),("Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor,"),("odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a,"),("justo faucibus lectus, a sollicitudin orci sem eget massa. Suspendisse"),("enim diam vel arcu. Curabitur ut odio vel est tempor"),("primis in faucibus orci luctus et ultrices posuere cubilia Curae;"),("Duis elementum, dui quis accumsan convallis, ante lectus convallis est,");
+INSERT INTO question(description) VALUES ("sem ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis"),("Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula"),("elit elit fermentum risus, at fringilla purus mauris a nunc."),("eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in"),("id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor,"),("ac, feugiat non, lobortis quis, pede. Suspendisse dui. Fusce diam"),("ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede."),("Phasellus libero mauris, aliquam eu, accumsan sed, facilisis vitae, orci."),("libero. Donec consectetuer mauris id sapien. Cras dolor dolor, tempus"),("luctus, ipsum leo elementum sem, vitae aliquam eros turpis non");
+INSERT INTO question(description) VALUES ("tellus eu augue porttitor interdum. Sed auctor odio a purus."),("eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla"),("Sed id risus quis diam luctus lobortis. Class aptent taciti"),("dui quis accumsan convallis, ante lectus convallis est, vitae sodales"),("purus sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam"),("Donec felis orci, adipiscing non, luctus sit amet, faucibus ut,"),("Aliquam auctor, velit eget laoreet posuere, enim nisl elementum purus,"),("ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi metus."),("In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede"),("sodales nisi magna sed dui. Fusce aliquam, enim nec tempus");
+INSERT INTO question(description) VALUES ("faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus ornare."),("felis purus ac tellus. Suspendisse sed dolor. Fusce mi lorem,"),("laoreet, libero et tristique pellentesque, tellus sem mollis dui, in"),("a purus. Duis elementum, dui quis accumsan convallis, ante lectus"),("Donec nibh enim, gravida sit amet, dapibus id, blandit at,"),("Nam interdum enim non nisi. Aenean eget metus. In nec"),("Nulla dignissim. Maecenas ornare egestas ligula. Nullam feugiat placerat velit."),("nisl. Quisque fringilla euismod enim. Etiam gravida molestie arcu. Sed"),("et netus et malesuada fames ac turpis egestas. Fusce aliquet"),("euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet,");
+insert into question_options(question_id,options_id,is_correct) values(1,1,false);
+insert into question_options(question_id,options_id,is_correct) values(1,2,true);
+insert into question_options(question_id,options_id,is_correct) values(1,3,false);
+insert into question_options(question_id,options_id,is_correct) values(1,4,true);
+insert into question_options(question_id,options_id,is_correct) values(1,5,false);
+insert into question_options(question_id,options_id,is_correct) values(2,1,false);
+insert into question_options(question_id,options_id,is_correct) values(2,2,true);
+insert into question_options(question_id,options_id,is_correct) values(2,3,false);
+insert into question_options(question_id,options_id,is_correct) values(2,4,true);
+insert into question_options(question_id,options_id,is_correct) values(2,5,false);
+insert into question_options(question_id,options_id,is_correct) values(3,1,false);
+insert into question_options(question_id,options_id,is_correct) values(3,2,true);
+insert into question_options(question_id,options_id,is_correct) values(3,3,false);
+insert into question_options(question_id,options_id,is_correct) values(3,4,true);
+insert into question_options(question_id,options_id,is_correct) values(3,5,false);
+insert into question_options(question_id,options_id,is_correct) values(4,1,false);
+insert into question_options(question_id,options_id,is_correct) values(4,2,true);
+insert into question_options(question_id,options_id,is_correct) values(4,3,false);
+insert into question_options(question_id,options_id,is_correct) values(4,4,true);
+insert into question_options(question_id,options_id,is_correct) values(4,5,false);
+insert into question_options(question_id,options_id,is_correct) values(5,1,false);
+insert into question_options(question_id,options_id,is_correct) values(5,2,true);
+insert into question_options(question_id,options_id,is_correct) values(5,3,false);
+insert into question_options(question_id,options_id,is_correct) values(5,4,true);
+insert into question_options(question_id,options_id,is_correct) values(5,5,false);
+insert into question_options(question_id,options_id,is_correct) values(6,1,false);
+insert into question_options(question_id,options_id,is_correct) values(6,2,true);
+insert into question_options(question_id,options_id,is_correct) values(6,3,false);
+insert into question_options(question_id,options_id,is_correct) values(6,4,true);
+insert into question_options(question_id,options_id,is_correct) values(6,5,false);
+insert into question_options(question_id,options_id,is_correct) values(7,1,false);
+insert into question_options(question_id,options_id,is_correct) values(7,2,true);
+insert into question_options(question_id,options_id,is_correct) values(7,3,false);
+insert into question_options(question_id,options_id,is_correct) values(7,4,true);
+insert into question_options(question_id,options_id,is_correct) values(7,5,false);
+insert into test(description,time) values("Test description",60);
+insert into test_question_options(test_id, question_options_id) values(1,1);
+insert into test_question_options(test_id, question_options_id) values(1,2);
+insert into test_question_options(test_id, question_options_id) values(1,3);
+insert into test_question_options(test_id, question_options_id) values(1,4);
+insert into test_question_options(test_id, question_options_id) values(1,5);
+insert into test_question_options(test_id, question_options_id) values(1,6);
+insert into test_question_options(test_id, question_options_id) values(1,7);
+insert into test_question_options(test_id, question_options_id) values(1,8);
+insert into test_question_options(test_id, question_options_id) values(1,9);
+insert into test_question_options(test_id, question_options_id) values(1,10);
+insert into test_question_options(test_id, question_options_id) values(1,11);
+insert into test_question_options(test_id, question_options_id) values(1,12);
+insert into test_question_options(test_id, question_options_id) values(1,13);
+insert into test_question_options(test_id, question_options_id) values(1,14);
+insert into test_question_options(test_id, question_options_id) values(1,15);
+insert into test_question_options(test_id, question_options_id) values(1,16);
+insert into test_question_options(test_id, question_options_id) values(1,17);
+insert into test_question_options(test_id, question_options_id) values(1,18);
+insert into test_question_options(test_id, question_options_id) values(1,19);
+insert into test_question_options(test_id, question_options_id) values(1,20);
+insert into test_question_options(test_id, question_options_id) values(1,21);
+insert into test_question_options(test_id, question_options_id) values(1,22);
+insert into test_question_options(test_id, question_options_id) values(1,23);
+insert into test_question_options(test_id, question_options_id) values(1,24);
+insert into test_question_options(test_id, question_options_id) values(1,25);
+insert into test_question_options(test_id, question_options_id) values(1,26);
+insert into test_question_options(test_id, question_options_id) values(1,27);
+insert into test_question_options(test_id, question_options_id) values(1,28);
+insert into test_question_options(test_id, question_options_id) values(1,29);
+insert into test_question_options(test_id, question_options_id) values(1,30);
+insert into test_question_options(test_id, question_options_id) values(1,31);
+insert into test_question_options(test_id, question_options_id) values(1,32);
+insert into test_question_options(test_id, question_options_id) values(1,33);
+insert into test_question_options(test_id, question_options_id) values(1,34);
+insert into test_question_options(test_id, question_options_id) values(1,35);
+insert into user(name,password) values ("admin","admin");

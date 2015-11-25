@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+     xmlns:h="http://java.sun.com/jsf/html"     
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+ <h:body>
+     <h:form id="idForm"> 
+     <p:outputLabel  value="Test description : " /><p:outputLabel  id="txtDescription" value="#{testMB.test.description} " />     
+         <table> 
+             <tr>
+                <td><h:outputLabel for="name" value="Name : " /></td>
+                <td><p:inputText id="name" value="#{userMB.name}">
+                    </p:inputText>
+                </td>
+             </tr>
+             <tr>
+                <td><h:outputLabel for="password" value="Password : " /></td>   
+                <td><p:password id="password" value="#{userMB.password}"> 
+                    </p:password>
+                </td>    
+             </tr>            
+             <tr>
+                <td><p:commandButton id="loginUser" value="Login" action="#{userMB.loginUser}" ajax="false"/></td>
+             </tr>   
+         </table>
+     </h:form>      
+</h:body>
+</html> 

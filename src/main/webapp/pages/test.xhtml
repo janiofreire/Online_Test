@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets"  
+     xmlns:h="http://java.sun.com/jsf/html"     
+      xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+     <h:head>  
+
+    </h:head> 
+ <h:body>
+
+      <h:form id="idForm">
+      
+    	<p:poll interval="2" listener="#{usrTestMB.updateTime}" update="txtCount" stop="#{usrTestMB.stop}"/>
+      	<p:selectOneMenu value="#{usrTestMB.indexListQuestion}" id="questionIndexs">
+      		  <!-- <p:ajax  event="change" update="question"/> -->
+      		<f:selectItems value="#{usrTestMB.listIndexQuestion}" />
+	  	</p:selectOneMenu>
+	  	<p:commandButton value="GO" id="btGo" update="question"/>
+	  	<p:commandButton value="Submit Question" id="btSubmitQuestion" update="@form" actionListener="#{usrTestMB.actionBtSubmitQuestion}" disabled="#{usrTestMB.stop}"/>
+	  	<p:commandButton value="Submit Test" id="btSubmitTest" action="#{usrTestMB.actionBtSubmitTest}" ajax="false"/>
+	  	<h:panelGroup id="question">
+	  	
+	  		<p:outputLabel value="Question: "/><p:outputLabel value="#{usrTestMB.userQuestion.description}" id="description" rendered="#{usrTestMB.userQuestion != null}"/>
+                <p:dataTable value="#{usrTestMB.userQuestion.options}"
+                			  var="userAnswer" 
+                			  selection="#{usrTestMB.selectQuestionOptions}" 
+                			  rowKey="#{userAnswer.id}" rendered="#{usrTestMB.userQuestion != null}">
+                			  <!-- <p:ajax  event="rowSelectCheckbox" listener="#{usrTestMB.onRowSelect}"/>
+							  <p:ajax  event="rowUnselectCheckbox" listener="#{usrTestMB.onRowUnSelect}"/> -->
+                	<p:column selectionMode="multiple"/>
+                    <p:column  >
+                        <h:outputText value="#{userAnswer.description}"/>
+                    </p:column>
+                </p:dataTable>
+			</h:panelGroup>
+		<h:outputText id="txtCount" value="#{usrTestMB.time}" />
+      </h:form>  
+ </h:body>
+ </html> 

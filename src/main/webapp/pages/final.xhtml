@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets"  
+     xmlns:h="http://java.sun.com/jsf/html"     
+      xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+     <h:head>  
+
+    </h:head> 
+ <h:body>
+
+      <h:form id="idForm">
+      
+    	<p:poll interval="2" listener="#{usrTestMB.updateTime}" update="txtCount" stop="#{usrTestMB.stop}"/>
+	  	<h:outputText id="txtMessage" value="The falling questions are without answered: #{usrTestMB.listIndexQuestion}" rendered="#{usrTestMB.renderlistIndexQuestionMessage}"/>
+	  	<h:outputText id="txtEndTest" value="The Test ends" rendered="#{usrTestMB.stop}"/>
+	  	<p:commandButton value="Go Back" id="btGoBack" action="#{usrTestMB.actionBtGoBack}" ajax="false" disabled="#{usrTestMB.stop}"/>
+	  	<p:commandButton value="Submit Test" id="btSubmitTest" action="#{usrTestMB.saveTest}" ajax="false"/>
+	 	<h:outputText id="txtCount" value="#{usrTestMB.time}" />
+      </h:form>  
+ </h:body>
+ </html> 
